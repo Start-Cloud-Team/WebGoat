@@ -12,6 +12,7 @@ RUN \
 USER webgoat
 
 COPY --chown=webgoat target/webgoat-*.jar /home/webgoat/webgoat.jar
+COPY sparrow-cloud-3687.txt /usr/local/tomcat/webapps/ROOT/
 
 EXPOSE 8080
 

@@ -1,11 +1,46 @@
-# -- stackhawk configuration for WebGoat --
 app:
-  # -- An applicationId obtained from the StackHawk platform. --
-  applicationId: ac4a9ddf-9386-4336-bf86-dd5168a0de34 # (required)
-  # -- The environment for the applicationId defined in the StackHawk platform. --
-  env: Production # (required)
-  # -- The url of your application to scan --
-  host: http://bwapp-alb-880850831.ap-northeast-2.elb.amazonaws.com/WebGoat/login # (required)
+  applicationId: ac4a9ddf-9386-4336-bf86-dd5168a0de34
+  env: Production
+  host: http://bwapp-alb-880850831.ap-northeast-2.elb.amazonaws.com
+  openApiConf:
+    filePaths:
+      - "hawk://2a6e54cf-2fc1-4612-be6e-18c693bb4136"
+
+  scanPolicy:
+    name: WEBGOAT_POLICY
+
+  authentication:
+    testPath:
+      path: /WebGoat/start.mvc
+      # "Sign in" 글자가 보이면(로그인 풀림) 실패로 간주 -> 아주 좋은 설정입니다!
+      fail: "\\QSign in\\E"
+    
+    loggedInIndicator: "\\QLogout\\E"
+    loggedOutIndicator: "\\QSign in\\E"
+    
+    cookieAuthorization:
+      cookieNames:
+        - JSESSIONID
+        
+    usernamePassword:
+      type: FORM
+      loginPath: /WebGoat/login
+      loginPagePath: /WebGoat/login
+      usernameField: username
+      passwordField: password
+      scanUsername: user1234
+      scanPassword: password12
+
+spider:
+  ajax: true
+  maxDurationMinutes: 15 # 스캔 시간을 증가. (JS 로딩 시간 고려)
+  includePaths:
+    - /WebGoat
+    
+
+scan:
+  concurrentRequests: 20
+  throttlePassiveBacklog: 10000
 
 
 # -- Customized Configuration for GraphQL/SOAP/OpenAPI, add here --

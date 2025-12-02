@@ -74,7 +74,7 @@ phases:
       - echo "=== CREATE taskdef.json ==="
       - printf '{"family":"Bwapp-tasks","executionRoleArn":"arn:aws:iam::%s:role/ecsTaskExecutionRole","taskRoleArn":"arn:aws:iam::329984431650:role/escTaskRoleForExec","networkMode":"awsvpc","requiresCompatibilities":["FARGATE"],"cpu":"256","memory":"2048","enableExecuteCommand":true,"containerDefinitions":[{"name":"Bwapp-container","image":"%s","essential":true,"environment":[{"name":"TZ","value":"%s"},{"name":"WEBGOAT_HOST","value":"%s"},{"name":"WEBWOLF_HOST","value":"%s"},{"name":"EXCLUDE_CATEGORIES","value":"%s"},{"name":"EXCLUDE_LESSONS","value":"%s"}],"portMappings":[{"containerPort":8080,"protocol":"tcp"}]}]}' "$ACCOUNT_ID" "$ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG" "$TZ" "$WEBGOAT_HOST" "$WEBWOLF_HOST" "$EXCLUDE_CATEGORIES" "$EXCLUDE_LESSONS" > taskdef.json
       - echo "=== CREATE appspec.yml ==="
-      - printf 'version:0.0\nResources:\n  - TargetService:\n      Type:AWS::ECS::Service\n      Properties:\n        TaskDefinition:"<TASK_DEFINITION>"\n        LoadBalancerInfo:\n          ContainerName:"Bwapp-container"\n          ContainerPort:8080' > appspec.yml
+      - printf 'version: 0.0\nResources:\n  - TargetService:\n      Type: AWS::ECS::Service\n      Properties:\n        TaskDefinition: "<TASK_DEFINITION>"\n        LoadBalancerInfo:\n          ContainerName: "Bwapp-container"\n          ContainerPort: 8080' > appspec.yml
 
 artifacts:
   files:

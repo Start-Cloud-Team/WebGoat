@@ -61,8 +61,12 @@ phases:
       - docker push $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - echo "=== FETCH SONARCLOUD RESULTS ==="
       - TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-      - curl -u $SONAR_TOKEN: "https://sonarcloud.io/api/issues/search?componentKeys=Start-Cloud-Team_WebGoat&resolved=false" -o sonarcloud-issues.json || echo '{"error":"Failed to fetch issues"}' > sonarcloud-issues.json
-      - curl -u $SONAR_TOKEN: "https://sonarcloud.io/api/measures/component?component=Start-Cloud-Team_WebGoat&metricKeys=bugs,vulnerabilities,code_smells,coverage,security_hotspots" -o sonarcloud-metrics.json || echo '{"error":"Failed to fetch metrics"}' > sonarcloud-metrics.json
+      - |
+        curl -u $SONAR_TOKEN: "https://sonarcloud.io/api/issues/search?componentKeys=Start-Cloud-Team_WebGoat&resolved=false" \
+          -o sonarcloud-issues.json || echo '{"error":"Failed to fetch issues"}' > sonarcloud-issues.json
+      - |
+        curl -u $SONAR_TOKEN: "https://sonarcloud.io/api/measures/component?component=Start-Cloud-Team_WebGoat&metricKeys=bugs,vulnerabilities,code_smells,coverage,security_hotspots" \
+          -o sonarcloud-metrics.json || echo '{"error":"Failed to fetch metrics"}' > sonarcloud-metrics.json
       - echo "=== UPLOAD SECURITY RESULTS TO S3 ==="
       - test -f snyk-sca-results.json && aws s3 cp snyk-sca-results.json s3://$S3_BUCKET/snyk/sca-$TIMESTAMP.json || echo "Snyk SCA results file not found"
       - test -f snyk-container-results.json && aws s3 cp snyk-container-results.json s3://$S3_BUCKET/snyk/container-$TIMESTAMP.json || echo "Snyk Container results file not found"

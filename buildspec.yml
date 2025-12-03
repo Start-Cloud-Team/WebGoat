@@ -42,7 +42,8 @@ phases:
       - echo "=== SNYK AUTH ==="
       - snyk auth $SNYK_TOKEN || true
       - echo "=== RUN SNYK SCA TEST (Non-blocking) ==="
-      - snyk test --all-projects --json-file-output=snyk-sca-results.json || echo '{"error":"Snyk SCA scan failed"}' > snyk-sca-results.json
+      - snyk test --all-projects --json-file-output=snyk-sca-results.json || true
+      - test -f snyk-sca-results.json || echo '{"error":"Snyk SCA scan failed"}' > snyk-sca-results.json
       - snyk monitor --project-name=bWAPP-SCA || true
       - echo "=== PULL WEBGOAT IMAGE ==="
       - docker pull webgoat/webgoat:latest || true

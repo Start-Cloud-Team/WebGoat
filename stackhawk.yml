@@ -1,10 +1,7 @@
 app:
-  applicationId: ac4a9ddf-9386-4336-bf86-dd5168a0de34
+  applicationId: 7e4cc3bd-34f0-475a-9b81-5de3baa32746
   env: Production
   host: http://bwapp-alb-880850831.ap-northeast-2.elb.amazonaws.com
-  openApiConf:
-    filePaths:
-      - "hawk://2a6e54cf-2fc1-4612-be6e-18c693bb4136"
 
   scanPolicy:
     name: WEBGOAT_POLICY

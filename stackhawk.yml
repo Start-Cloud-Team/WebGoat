@@ -1,7 +1,7 @@
 app:
   applicationId: 7e4cc3bd-34f0-475a-9b81-5de3baa32746
   env: Production
-  host: http://bwapp-alb-880850831.ap-northeast-2.elb.amazonaws.com
+  host: http://iac-alb-1471648105.ap-northeast-2.elb.amazonaws.com
   openApiConf:
     filePaths:
       - "hawk://52de2745-155f-4640-b79e-c50b074a4afa"
